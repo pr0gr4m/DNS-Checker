@@ -9,6 +9,7 @@ class MainWindow(QMainWindow, form_class):
 	def __init__(self):
 		super(MainWindow, self).__init__()
 		self.setupUi(self)
+		self.lineCSV.setReadOnly(True)
 	
 		self.btnCSV.clicked.connect(self.btn_csv)
 		self.btnStart.clicked.connect(self.btn_start)
@@ -16,7 +17,8 @@ class MainWindow(QMainWindow, form_class):
 		self.btnDetail.clicked.connect(self.btn_detail)
 
 	def btn_csv(self):
-		self.lineCSV.setText("ok")
+		csv_path = QFileDialog.getSaveFileName(self, "Save CSV File", "", ".csv") + ".csv"
+		self.lineCSV.setText(csv_path)
 
 	def btn_start(self):
 		mainDns = ""
