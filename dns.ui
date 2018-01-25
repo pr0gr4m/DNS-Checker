@@ -206,6 +206,13 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QPushButton" name="btnRestart">
+       <property name="text">
+        <string>Restart</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </widget>
   </widget>
