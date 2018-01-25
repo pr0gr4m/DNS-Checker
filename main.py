@@ -1,3 +1,4 @@
+import PyQt4
 from PyQt4.QtGui import *
 from PyQt4 import uic
 import sys
@@ -25,8 +26,13 @@ class MainWindow(QMainWindow, form_class):
 			mainDns = self.dnsQuadMain.text()
 		elif self.dnsFreeMain.isChecked():
 			mainDns = self.dnsFreeMain.text()
-		else:
+		elif self.dnsLevelMain.isChecked():
 			mainDns = self.dnsLevelMain.text()
+		else:
+			error_dialog = QErrorMessage()
+			error_dialog.showMessage("Check Main DNS Server")
+			error_dialog.exec_()
+			return
 		print mainDns
 
 		subDns = ""
@@ -36,8 +42,13 @@ class MainWindow(QMainWindow, form_class):
 			subDns = self.dnsQuadSub.text()
 		elif self.dnsFreeSub.isChecked():
 			subDns = self.dnsFreeSub.text()
-		else:
+		elif self.dnsLevelSub.isChecked():
 			subDns = self.dnsLevelSub.text()
+		else:
+			error_dialog = QErrorMessage()
+			error_dialog.showMessage("Check Sub DNS Server")
+			error_dialog.exec_()
+			return
 		print subDns
 
 		cycle = 3600
@@ -45,8 +56,13 @@ class MainWindow(QMainWindow, form_class):
 			cycle = 3600
 		elif self.cycleMinute.isChecked():
 			cycle = 60
-		else:
+		elif self.cycleSecond.isChecked():
 			cycle = 1
+		else:
+			error_dialog = QErrorMessage()
+			error_dialog.showMessage("Check Cycle")
+			error_dialog.exec_()
+			return
 		print cycle
 
 	def btn_stop(self):
