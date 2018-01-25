@@ -9,6 +9,7 @@ class MainWindow(QMainWindow, form_class):
 	def __init__(self):
 		super(MainWindow, self).__init__()
 		self.setupUi(self)
+		self.startFlag = False
 		self.lineCSV.setReadOnly(True)
 	
 		self.btnCSV.clicked.connect(self.btn_csv)
@@ -21,6 +22,8 @@ class MainWindow(QMainWindow, form_class):
 		self.lineCSV.setText(csv_path)
 
 	def btn_start(self):
+		self.startFlag = True
+
 		mainDns = ""
 		if self.dnsGoogleMain.isChecked():
 			mainDns = self.dnsGoogleMain.text()
@@ -71,6 +74,11 @@ class MainWindow(QMainWindow, form_class):
 		print "tmp"
 
 	def btn_detail(self):
+		if self.startFlag == False:
+			error_dialog = QErrorMessage()
+			error_dialog.showMessage("Detail can be seen after starting")
+			error_dialog.exec_()
+			return
 		print "tmp"
 
 if __name__ == "__main__":
