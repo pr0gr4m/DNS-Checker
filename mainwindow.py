@@ -15,7 +15,6 @@ class MainWindow(QMainWindow, form_class):
 		self.btnCSV.clicked.connect(self.btn_csv)
 		self.btnStart.clicked.connect(self.btn_start)
 		self.btnStop.clicked.connect(self.btn_stop)
-		self.btnDetail.clicked.connect(self.btn_detail)
 
 	def btn_csv(self):
 		csv_path = QFileDialog.getSaveFileName(self, "Save CSV File", "", ".csv") + ".csv"
@@ -56,6 +55,14 @@ class MainWindow(QMainWindow, form_class):
 			return
 		print subDns
 
+		domain = self.lineDomain.text()
+		if not domain:
+			error_dialog = QErrorMessage()
+			error_dialog.showMessage("Fill the Domain Information")
+			error_dialog.exec_()
+			return
+		print domain
+
 		cycle = 3600
 		if self.cycleHour.isChecked():
 			cycle = 3600
@@ -70,15 +77,16 @@ class MainWindow(QMainWindow, form_class):
 			return
 		print cycle
 
-	def btn_stop(self):
-		print "tmp"
-
-	def btn_detail(self):
-		if self.startFlag == False:
+		csv_path = self.lineCSV.text()
+		if not csv_path:
 			error_dialog = QErrorMessage()
-			error_dialog.showMessage("Detail can be seen after starting")
+			error_dialog.showMessage("Fill the csv file path")
 			error_dialog.exec_()
 			return
+		print csv_path
+
+
+	def btn_stop(self):
 		print "tmp"
 
 if __name__ == "__main__":
