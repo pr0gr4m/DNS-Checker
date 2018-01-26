@@ -114,7 +114,11 @@
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_3">
      <item>
-      <widget class="QLineEdit" name="lineDomain"/>
+      <widget class="QLineEdit" name="lineDomain">
+       <property name="placeholderText">
+        <string>fl0ckfl0ck.info</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>

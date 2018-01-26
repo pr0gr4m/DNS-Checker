@@ -22,10 +22,13 @@ class MainWindow(QMainWindow, form_class):
 		csv_path = QFileDialog.getSaveFileName(self, "Save CSV File", "", ".csv") + ".csv"
 		self.lineCSV.setText(csv_path)
 
-	def btn_start(self):
-		self.startFlag = True
+	def get_config(self):
+		global mainDns
+		global subDns
+		global domain
+		global cycle
+		global csv_path
 
-		mainDns = ""
 		if self.dnsGoogleMain.isChecked():
 			mainDns = self.dnsGoogleMain.text()
 		elif self.dnsQuadMain.isChecked():
@@ -39,9 +42,7 @@ class MainWindow(QMainWindow, form_class):
 			error_dialog.showMessage("Check Main DNS Server")
 			error_dialog.exec_()
 			return
-		print mainDns
 
-		subDns = ""
 		if self.dnsGoogleSub.isChecked():
 			subDns = self.dnsGoogleSub.text()
 		elif self.dnsQuadSub.isChecked():
@@ -55,7 +56,6 @@ class MainWindow(QMainWindow, form_class):
 			error_dialog.showMessage("Check Sub DNS Server")
 			error_dialog.exec_()
 			return
-		print subDns
 
 		domain = self.lineDomain.text()
 		if not domain:
@@ -63,7 +63,6 @@ class MainWindow(QMainWindow, form_class):
 			error_dialog.showMessage("Fill the Domain Information")
 			error_dialog.exec_()
 			return
-		print domain
 
 		cycle = 3600
 		if self.cycleHour.isChecked():
@@ -77,7 +76,6 @@ class MainWindow(QMainWindow, form_class):
 			error_dialog.showMessage("Check Cycle")
 			error_dialog.exec_()
 			return
-		print cycle
 
 		csv_path = self.lineCSV.text()
 		if not csv_path:
@@ -85,16 +83,36 @@ class MainWindow(QMainWindow, form_class):
 			error_dialog.showMessage("Fill the csv file path")
 			error_dialog.exec_()
 			return
-		print csv_path
+
+	def btn_start(self):
+		global mainDns
+		global subDns
+		global domain
+		global cycle
+		global csv_path
+		self.startFlag = True
+		self.get_config()
 		subprocess.call(["python", "dns_daemon.py", "start", mainDns, subDns, domain, str(cycle), csv_path])
 
 	def btn_stop(self):
+		self.startFlag = False
 		subprocess.call(["python", "dns_daemon.py", "stop"])
 
 	def btn_restart(self):
-		subprocess.call(["python", "dns_daemon.py", "restart"])
+		global mainDns
+		global subDns
+		global domain
+		global cycle
+		global csv_path
+		self.get_config()
+		subprocess.call(["python", "dns_daemon.py", "restart"], mainDns, subDns, domain, str(cycle), csv_path)
 
 if __name__ == "__main__":
+	mainDns = ""
+	subDns = ""
+	domain = ""
+	cycle = 3600
+	csv_path = ""
 	app = QApplication(sys.argv)
 	window = MainWindow()
 	window.show()
