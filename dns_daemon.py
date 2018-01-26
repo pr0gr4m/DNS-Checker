@@ -37,9 +37,13 @@ if __name__ == "__main__":
 		domain = sys.argv[4]
 		cycle = int(sys.argv[5])
 		csv_path = sys.argv[6]
+		auto_inc = 1
+		with open(csv_path, 'r') as f:
+			for row in reversed(list(csv.reader(f))):
+					auto_inc = int(row[0]) + 1
+					break
 		csv_file = open(csv_path, 'a')
 		csv_write = csv.writer(csv_file)
-		auto_inc = 1
 		if 'start' == sys.argv[1]:
 			daemon.start()
 		elif 'restart' == sys.argv[1]:
@@ -49,5 +53,5 @@ if __name__ == "__main__":
 			sys.exit(2)
 		sys.exit(0)
 	else:
-		print "usage: %s start|stop|restart" % sys.argv[0]
+		print "usage: %s start|stop|restart [Main DNS] [Sub DNS] [Domain] [Cycle] [Path CSV File]" % sys.argv[0]
 		sys.exit(2)
