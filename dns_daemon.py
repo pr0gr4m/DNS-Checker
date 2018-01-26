@@ -38,10 +38,15 @@ if __name__ == "__main__":
 		cycle = int(sys.argv[5])
 		csv_path = sys.argv[6]
 		auto_inc = 1
-		with open(csv_path, 'r') as f:
-			for row in reversed(list(csv.reader(f))):
+
+		try:		# read existing file's last row number
+			with open(csv_path, 'r') as f:
+				for row in reversed(list(csv.reader(f))):
 					auto_inc = int(row[0]) + 1
 					break
+		except:
+			pass
+
 		csv_file = open(csv_path, 'a')
 		csv_write = csv.writer(csv_file)
 		if 'start' == sys.argv[1]:
