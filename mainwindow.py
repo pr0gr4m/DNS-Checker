@@ -2,6 +2,7 @@ import PyQt4
 from PyQt4.QtGui import *
 from PyQt4 import uic
 import time, sys, csv
+import os, subprocess
 
 form_class = uic.loadUiType("dns.ui")[0]
 
@@ -85,12 +86,13 @@ class MainWindow(QMainWindow, form_class):
 			error_dialog.exec_()
 			return
 		print csv_path
+		subprocess.call(["python", "dns_daemon.py", "start", mainDns, subDns, domain, str(cycle), csv_path])
 
 	def btn_stop(self):
-		print "stop"
+		subprocess.call(["python", "dns_daemon.py", "stop"])
 
 	def btn_restart(self):
-		print "restart"
+		subprocess.call(["python", "dns_daemon.py", "restart"])
 
 if __name__ == "__main__":
 	app = QApplication(sys.argv)

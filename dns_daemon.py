@@ -26,14 +26,15 @@ class DNSDaemon(Daemon):
 
 if __name__ == "__main__":
 	daemon = DNSDaemon('/tmp/dns-daemon.pid')
-	dns_main = "8.8.8.8"
-	dns_sub = "8.8.4.4"
-	csv_file = open('data.csv', 'w')
-	csv_write = csv.writer(csv_file)
-	domain = "fl0ckfl0ck.info"
-	cycle = 2
 	auto_inc = 1
-	if len(sys.argv) == 2:
+	if len(sys.argv) == 7:
+		dns_main = sys.argv[2]
+		dns_sub = sys.argv[3]
+		domain = sys.argv[4]
+		cycle = int(sys.argv[5])
+		csv_path = sys.argv[6]
+		csv_file = open(csv_path, 'w')
+		csv_write = csv.writer(csv_file)
 		if 'start' == sys.argv[1]:
 			daemon.start()
 		elif 'stop' == sys.argv[1]:
