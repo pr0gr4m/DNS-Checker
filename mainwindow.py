@@ -105,7 +105,7 @@ class MainWindow(QMainWindow, form_class):
 		global cycle
 		global csv_path
 		self.get_config()
-		subprocess.call(["python", "dns_daemon.py", "restart"], mainDns, subDns, domain, str(cycle), csv_path)
+		subprocess.call(["python", "dns_daemon.py", "restart", mainDns, subDns, domain, str(cycle), csv_path])
 
 if __name__ == "__main__":
 	mainDns = ""
