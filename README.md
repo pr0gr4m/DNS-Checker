@@ -28,6 +28,10 @@ $ sudo apt install python-qt4
 Usage
 ======
 
+```
+$ sudo python mainwindow.py
+```
+
 * Main DNS Server : Main DNS server address to send query
 * Sub DNS Server : Sub DNS server address to send query
 * Domain : Target domain to acquisition information(IP Address)
