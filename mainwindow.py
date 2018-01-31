@@ -41,7 +41,7 @@ class MainWindow(QMainWindow, form_class):
 			error_dialog = QErrorMessage()
 			error_dialog.showMessage("Check Main DNS Server")
 			error_dialog.exec_()
-			return
+			return False
 
 		if self.dnsGoogleSub.isChecked():
 			subDns = self.dnsGoogleSub.text()
@@ -55,14 +55,14 @@ class MainWindow(QMainWindow, form_class):
 			error_dialog = QErrorMessage()
 			error_dialog.showMessage("Check Sub DNS Server")
 			error_dialog.exec_()
-			return
+			return False
 
 		domain = self.lineDomain.text()
 		if not domain:
 			error_dialog = QErrorMessage()
 			error_dialog.showMessage("Fill the Domain Information")
 			error_dialog.exec_()
-			return
+			return False
 
 		cycle = 3600
 		if self.cycleHour.isChecked():
@@ -75,14 +75,16 @@ class MainWindow(QMainWindow, form_class):
 			error_dialog = QErrorMessage()
 			error_dialog.showMessage("Check Cycle")
 			error_dialog.exec_()
-			return
+			return False
 
 		csv_path = self.lineCSV.text()
 		if not csv_path:
 			error_dialog = QErrorMessage()
 			error_dialog.showMessage("Fill the csv file path")
 			error_dialog.exec_()
-			return
+			return False
+
+		return True
 
 	def btn_start(self):
 		global mainDns
@@ -90,8 +92,10 @@ class MainWindow(QMainWindow, form_class):
 		global domain
 		global cycle
 		global csv_path
+		ret = self.get_config()
+		if ret == False:
+			return
 		self.startFlag = True
-		self.get_config()
 		subprocess.call(["python", "dns_daemon.py", "start", mainDns, subDns, domain, str(cycle), csv_path])
 
 	def btn_stop(self):
@@ -104,7 +108,9 @@ class MainWindow(QMainWindow, form_class):
 		global domain
 		global cycle
 		global csv_path
-		self.get_config()
+		ret = self.get_config()
+		if ret == False:
+			return
 		subprocess.call(["python", "dns_daemon.py", "restart", mainDns, subDns, domain, str(cycle), csv_path])
 
 if __name__ == "__main__":
